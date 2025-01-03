@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promo Terms Generator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <h1>Promo Terms Generator</h1>
+        <label for="promoType">Select Promo Type:</label>
+        <select id="promoType">
+            <option value="" selected disabled>Select...</option>
+            <option value="xOff">$X Off Your Order</option>
+            <option value="zeroDelivery">$0 Delivery Fee</option>
+            <option value="bogo">BOGO</option>
+        </select>
+
+        <div id="promoInputs"></div>
+        <button id="generateBtn">Generate Terms</button>
+
+        <div id="error"></div>
+        <div id="output" ></div>
+        <button id="copyBtn">Copy to Clipboard</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

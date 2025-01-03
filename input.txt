@@ -1,0 +1,37 @@
+I want to create a small web tool. This tool will generate terms and conditions. I would like there to be a dropdown to select what type of promo. To start out lets have two promos. "$X off your order", and "$0 delivery fee". I think it makes sense to have each offer be a function. Each offer will require different inputs. For inputs that have (yes/no), lets make them a dropdown. Start with a null value so they are required to select something. If one of the (yes/no) values is not set, throw and error. Make the error red text with rounded corners. The output should be hidden until it is generated. Make this a single column web app. Add a copy button to copy the output to the clipboard. Make sure it is hidden until the terms and conditions are generated. The output should be 3 seperate files, html, css, and js.
+
+
+Here is the inputs for $X Off your order:
+Start Date
+End Date
+Discount levels ($)
+Minimum Subtotal
+Orders
+Pickup? (yes/no)
+CODE
+Auto Redeem? (yes/no)
+Show in Wallet? (yes/no)
+Alcohol? (yes/no)
+DashPass Only? (yes/no)
+Mx/Location Exclusive? (yes/no)
+Mx/Location
+
+Here is the logic for $X Off your order from google sheets:
+
+="Offer valid through " &text(C4,"MM/DD/YYYY") & if(C14="Y"," on orders placed at "&C15,"")& ". Valid only " &C7& IF(C7=1," order"," orders") & if(C6=0,""," with a minimum subtotal of " & "$"&C6)&", excluding fees and taxes. Discount applies to subtotal only; does not apply to fees, taxes, and gratuity. If the full "& "$"&C5&" value is not used on a single order, the remaining value will be forfeited." & IF(C8="Y",""," Not valid for pickup.") & if(C7=1," Limit one per person. ","") & IF(C12="N","Not valid for the purchase of alcohol. ","") & "Fees, taxes, and gratuity still apply. Only available to select users as indicated in their account associated with this email address. " &if(C12 = "Y","Alcohol delivery and alcohol sales are permitted in certain states and only to people 21+. Please drink responsibly. ","") & if(C9 = "N/A","","Use promo code " & upper(C9) & " to redeem." & IF(C13="Y"," Must have an active DashPass account.","")) &if(C10="Y"," Offer will be automatically applied to order upon checkout. ","") &if(C11="Y"," Select offer from wallet to redeem. ","") & " See further terms and conditions at https://drd.sh/8ONpZP/."
+
+
+Here is the inputs for $0 delivery fee:
+Start Date
+End Date
+Minimum Subtotal
+Orders
+CODE
+Auto Redeem? (yes/no)
+Show in Wallet? (yes/no)
+DashPass Only? (yes/no)
+Mx/Location Exclusive? (yes/no)
+Mx/Location
+
+Here is the logic for $0 delivery fee from google sheets:
+= "Offer valid through "& TEXT(C4,"MM/DD/YYYY") & if(C10="Y"," on orders placed at "&C12,"") & ". Valid only " &C6& IF(C6=1," order"," orders") & if(C5=0,""," with a minimum subtotal of " & "$"&C5)&", excluding fees and taxes. "& if(C6=1,"Limit one per person. ","")& "Other fees (including service fee), taxes, and gratuity still apply. Qualifying orders containing alcohol will be charged a $0.01 Delivery Fee. Only available to select users as indicated in their account associated with this email address."  & if(C7 = "N/A",""," Use promo code " & upper(C7) & " to redeem." & IF(C11="Y"," Must have an active DashPass account.","")) & if(C8="Y"," Offer will be automatically applied to order upon checkout. ","") & if(C9="Y"," Select offer from wallet to redeem. ","") & " See further terms and conditions at https://drd.sh/8ONpZP/."
