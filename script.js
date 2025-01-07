@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
             promoInputsContainer.innerHTML += `
             <label for="discountLevelsPercent">Discount Levels (%)</label>
             <input type="number" id="discountLevelsPercent" class="input-field">
-             <label for="maxDiscount">Max discount ($)</label>
+             <label for="maxDiscount">Max Discount ($)</label>
             <input type="number" id="maxDiscount" class="input-field">  
             <label for="minSubtotal">Minimum Subtotal ($)</label>
             <input type="number" id="minSubtotal" class="input-field"> 
@@ -185,12 +185,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 </select>
             <label for="alcohol">Alcohol?</label>
                 <select id="alcohol" class="input-field boolean-field">
-                    <option value="">Select...</option>
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                </select>
-            <label for="dashPassOnly">DashPass Only?</label>
-                <select id="dashPassOnly" class="input-field boolean-field">
                     <option value="">Select...</option>
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
