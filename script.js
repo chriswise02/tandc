@@ -260,6 +260,16 @@ document.addEventListener("DOMContentLoaded", () => {
         if (discountLevelField && !inputs.discountLevels) {
             errors.push("You must set a 'Discount Level' for the promotion.");
         }
+        // Validate Discount Level % only if the field exists
+        const discountLevelsPercentField = document.getElementById("discountLevelsPercent");
+        if (discountLevelsPercentField && !inputs.discountLevelsPercent) {
+            errors.push("You must set a 'Discount Level' for the promotion.");
+        }
+        // Validate min subtotal only if the field exists
+        const minSubtotalField = document.getElementById("minSubtotal");
+        if (minSubtotalField && !inputs.minSubtotal) {
+            errors.push("You must set the minimum subtotal for the promotion.");
+        }
 
         return errors;
     }

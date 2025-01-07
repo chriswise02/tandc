@@ -4,7 +4,7 @@ body {
     padding: 20px;
     display: flex;
     justify-content: center; /* Center horizontally */
-    background-color: #f5f5f5;
+    background-color: #F5F5F5; /* Light Gray */
     min-height: 100vh; /* Ensure the body takes at least the full viewport height */
     box-sizing: border-box;
 }
@@ -12,14 +12,14 @@ body {
 h1 {
     text-align: center;
     margin-bottom: 20px;
-    color: #2f3e46;
+    color: #000000; /* Black */
 }
 
 label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
-    color: #354f52;
+    color: #000000; /* Black */
 }
 
 select, input, button {
@@ -27,34 +27,34 @@ select, input, button {
     padding: 10px;
     margin-bottom: 10px;
     box-sizing: border-box;
-    border: 1px solid #52796f; /* Medium green for border */
+    border: 1px solid #A1A1A1; /* Medium Gray for border */
     border-radius: 5px;
     font-size: 14px;
-    background-color: #f5f5f5; /* Neutral light background */
-    color: #2f3e46;
+    background-color: #FFFFFF; /* White */
+    color: #000000; /* Black */
 }
 
 button {
-    background-color: #84a98c; /* Secondary green */
-    color: white;
+    background-color: #FF3008; /* Red (Primary) */
+    color: #FFFFFF; /* White */
     cursor: pointer;
     border: none;
     transition: background 0.3s ease;
 }
 
 button:hover {
-    background-color: #52796f; /* Darker green for hover */
+    background-color: #D42807; /* Darker Red for hover */
 }
 
 .error {
-    color: #2f3e46;
-    border: 1px solid #2f3e46;
+    color: #FF3008; /* Red (Primary) */
+    border: 1px solid #FF3008; /* Red (Primary) */
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 10px;
     display: none;
-    background-color: #ffeeee;
-    white-space:pre-wrap;
+    background-color: #F5F5F5; /* Light Gray */
+    white-space: pre-wrap;
 }
 
 .output, #copyBtn {
@@ -64,43 +64,41 @@ button:hover {
 
 #output {
     padding: 10px;
-    border: 1px solid #52796f; /* Medium green */
+    border: 1px solid #A1A1A1; /* Medium Gray */
     border-radius: 5px;
-    background-color: #f9f9f9;
+    background-color: #F5F5F5; /* Light Gray */
     font-size: 14px;
     font-family: monospace;
     white-space: pre-wrap;
     word-wrap: break-word;
     display: none;
-    color: #2f3e46;
+    color: #000000; /* Black */
 }
 
-
 #app {
-    background: #ffffff;
+    background: #FFFFFF; /* White */
     padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Black with opacity for shadow */
     max-width: 600px;
     width: 100%; /* Optional: Makes it responsive on smaller screens */
     margin: auto; /* Center the element vertically when scrolling is not needed */
 }
 
-
 /* Optional Additional Styling */
 a {
-    color: #84a98c; /* Secondary green for links */
+    color: #FF3008; /* Red (Primary) for links */
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 a:hover {
-    color: #52796f; /* Darker green for hover */
+    color: #D42807; /* Darker Red for hover */
 }
 
 #copyMessage {
     margin-top: 10px;
-    color: #000000;
+    color: #000000; /* Black */
     font-size: 14px;
     font-weight: bold;
 }
