@@ -39,20 +39,18 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("copyBtn").addEventListener("click", () => {
         const output = document.getElementById("output").textContent; // Use textContent instead of value
         navigator.clipboard.writeText(output).then(() => {
-            // Display a confirmation message
-            let message = document.getElementById("copyMessage");
-            if (!message) {
-                message = document.createElement("div");
-                message.id = "copyMessage";
-                message.style.marginTop = "10px";
-                message.style.color = "#000000";
-                message.style.fontSize = "14px";
-                message.style.fontWeight = "bold";
-                document.getElementById("copyBtn").after(message);
-            }
-            message.textContent = "Copied!";
+            // Update the button text
+            const copyBtn = document.getElementById("copyBtn");
+            const originalText = copyBtn.textContent;
+            copyBtn.textContent = "Copied!";
+            
+            // Revert back to the original text after 2 seconds
+            setTimeout(() => {
+                copyBtn.textContent = originalText;
+            }, 2000);
         });
     });
+    
 
     // Function to update the input fields based on selected promo type
     function updatePromoInputs(promoType) {
