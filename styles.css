@@ -1,5 +1,20 @@
+/* Importing Fonts */
+@font-face {
+    font-family: 'TTNormsCondensedBold';
+    src: url('https://assets.doordash.team/m/1c935abc46e93fcc/original/TTNorms-Condensed-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'TTNormsProRegular';
+    src: url('https://typography.doordash.com/TTNorms-Pro/TTNormsPro-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'TTNormsProRegular', Arial, sans-serif;
     margin: 0;
     padding: 20px;
     display: flex;
@@ -12,14 +27,17 @@ body {
 h1 {
     text-align: center;
     margin-bottom: 20px;
+    font-family: 'TTNormsCondensedBold', Arial, sans-serif;
     color: #000000; /* Black */
 }
 
 label {
     display: block;
     margin-bottom: 5px;
+    font-family:  Arial, sans-serif;
     font-weight: bold;
     color: #000000; /* Black */
+    font-size: 14px;
 }
 
 select, input, button {
@@ -30,6 +48,7 @@ select, input, button {
     border: 1px solid #A1A1A1; /* Medium Gray for border */
     border-radius: 5px;
     font-size: 14px;
+    font-family: 'TTNormsProRegular', Arial, sans-serif;
     background-color: #FFFFFF; /* White */
     color: #000000; /* Black */
 }
@@ -39,11 +58,13 @@ button {
     color: #FFFFFF; /* White */
     cursor: pointer;
     border: none;
+    font-family: 'TTNormsCondensedBold', Arial, sans-serif;
     transition: background 0.3s ease;
+    font-size: 18px;
 }
 
 button:hover {
-    background-color: #D42807; /* Darker Red for hover */
+    background-color: #D32906; /* Medium red for hover */
 }
 
 .error {
@@ -54,6 +75,7 @@ button:hover {
     margin-bottom: 10px;
     display: none;
     background-color: #F5F5F5; /* Light Gray */
+    font-family: 'TTNormsProRegular', Arial, sans-serif;
     white-space: pre-wrap;
 }
 
@@ -68,7 +90,7 @@ button:hover {
     border-radius: 5px;
     background-color: #F5F5F5; /* Light Gray */
     font-size: 14px;
-    font-family: monospace;
+    font-family: 'TTNormsProRegular', monospace;
     white-space: pre-wrap;
     word-wrap: break-word;
     display: none;
@@ -89,16 +111,31 @@ button:hover {
 a {
     color: #FF3008; /* Red (Primary) for links */
     text-decoration: none;
+    font-family: 'TTNormsProRegular', Arial, sans-serif;
     transition: color 0.3s ease;
 }
 
 a:hover {
-    color: #D42807; /* Darker Red for hover */
+    color: #32906; /* Medium red for hover */
 }
 
 #copyMessage {
     margin-top: 10px;
     color: #000000; /* Black */
     font-size: 14px;
+    font-family: 'TTNormsCondensedBold', Arial, sans-serif;
     font-weight: bold;
+}
+
+#disclaimer {
+    margin-top: 15px;
+    padding: 10px;
+    font-size: 12px; /* Smaller text */
+    color: #A1A1A1; /* Medium Gray */
+    font-family: 'TTNormsProRegular', Arial, sans-serif;
+    line-height: 1.5;
+    border: 1px solid #A1A1A1; /* Medium Gray border */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #F5F5F5; /* Light Gray background */
+    text-align: center; /* Center the text */
 }

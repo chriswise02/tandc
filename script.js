@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Clear the output box
         document.getElementById("output").style.display = "none";
         document.getElementById("copyBtn").style.display = "none";
+        document.getElementById("disclaimer").style.display = "none";
         // Hide the "Copied!" message if it exists
         const copyMessage = document.getElementById("copyMessage");
         if (copyMessage) {
