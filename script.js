@@ -1,195 +1,316 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Attach event listeners
-    document.getElementById("promoType").addEventListener("change", (event) => {
-        updatePromoInputs(event.target.value);
+    // DOM Elements
+    const elements = {
+        promoType: document.getElementById("promoType"),
+        promoInputs: document.getElementById("promoInputs"),
+        generateBtn: document.getElementById("generateBtn"),
+        error: document.getElementById("error"),
+        output: document.getElementById("output"),
+        copyBtn: document.getElementById("copyBtn"),
+        disclaimer: document.getElementById("disclaimer")
+    };
 
-        // Clear the output box
-        document.getElementById("output").style.display = "none";
-        document.getElementById("copyBtn").style.display = "none";
-        document.getElementById("error").style.display = "none";
-        document.getElementById("disclaimer").style.display = "none";
-        document.getElementById("generateBtn").style.display = "block";
-        // Hide the "Copied!" message if it exists
-        const copyMessage = document.getElementById("copyMessage");
-        if (copyMessage) {
-            copyMessage.textContent = ""; // Hide the text
-        }
-    });
+    // Initialize the app
+    function init() {
+        // Hide elements that should be hidden initially
+        elements.generateBtn.style.display = "none";
+        elements.error.style.display = "none";
+        elements.output.style.display = "none";
+        elements.copyBtn.style.display = "none";
+        elements.disclaimer.style.display = "none";
 
-    document.getElementById("generateBtn").addEventListener("click", () => {
+        // Attach event listeners
+        attachEventListeners();
+    }
+
+    // Attach all event listeners
+    function attachEventListeners() {
+        elements.promoType.addEventListener("change", handlePromoTypeChange);
+        elements.generateBtn.addEventListener("click", handleGenerateClick);
+        elements.copyBtn.addEventListener("click", handleCopyClick);
+    }
+
+    // Handle promo type change
+    function handlePromoTypeChange(event) {
+        const promoType = event.target.value;
+        updatePromoInputs(promoType);
+        resetOutput();
+    }
+
+    // Handle generate button click
+    function handleGenerateClick() {
         const inputs = getFormInputs();
         const errors = validateInputs(inputs);
 
-        const errorContainer = document.getElementById("error");
         if (errors.length > 0) {
-            displayErrors(errorContainer, errors);
+            displayErrors(errors);
         } else {
-            clearErrors(errorContainer);
+            clearErrors();
             const terms = promoGenerators[inputs.promoType](inputs);
             displayOutput(terms);
         }
 
-        // Scroll to the bottom of the page
-        window.scrollTo({
-            top: document.body.scrollHeight,
-            behavior: "smooth", // Adds a smooth scrolling effect
-        });
-    });
+        // Scroll to the output section
+        scrollToOutput();
+    }
 
-    document.getElementById("copyBtn").addEventListener("click", () => {
-        const output = document.getElementById("output").textContent; // Use textContent instead of value
+    // Handle copy button click
+    function handleCopyClick() {
+        const output = elements.output.textContent;
         navigator.clipboard.writeText(output).then(() => {
-            // Update the button text
-            const copyBtn = document.getElementById("copyBtn");
-            const originalText = copyBtn.textContent;
-            copyBtn.textContent = "Copied!";
+            // Visual feedback for copy
+            elements.copyBtn.classList.add("copied");
+            elements.copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
             
-            // Revert back to the original text after 2 seconds
+            // Revert back after 2 seconds
             setTimeout(() => {
-                copyBtn.textContent = originalText;
+                elements.copyBtn.classList.remove("copied");
+                elements.copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copy to Clipboard';
             }, 2000);
         });
-    });
-    
+    }
+
+    // Reset output section
+    function resetOutput() {
+        elements.output.style.display = "none";
+        elements.copyBtn.style.display = "none";
+        elements.error.style.display = "none";
+        elements.disclaimer.style.display = "none";
+        elements.generateBtn.style.display = "block";
+    }
+
+    // Scroll to output section
+    function scrollToOutput() {
+        window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: "smooth"
+        });
+    }
 
     // Function to update the input fields based on selected promo type
     function updatePromoInputs(promoType) {
-        const promoInputsContainer = document.getElementById("promoInputs");
-        promoInputsContainer.innerHTML = ""; // Clear previous inputs
+        elements.promoInputs.innerHTML = ""; // Clear previous inputs
 
-        const commonInputs = `
-            <label for="endDate">End Date:</label>
-            <input type="date" id="endDate" class="input-field">
+        // Add common inputs for all promo types
+        const commonInputs = createCommonInputs();
+        elements.promoInputs.innerHTML = commonInputs;
 
-            <label for="dashPassOnly">DashPass Only?</label>
-            <select id="dashPassOnly" class="input-field boolean-field">
-                <option value="">Select...</option>
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-            </select>
-            <label for="mxLocationExclusive">Mx/Location Exclusive?</label>
-            <select id="mxLocationExclusive" class="input-field boolean-field">
-                <option value="">Select...</option>
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-            </select>
-
-            <label for="mxLocation">Mx/Location (required if "Yes" above):</label>
-            <input type="text" id="mxLocation" class="input-field">
-
-        `;
-
-        promoInputsContainer.innerHTML = commonInputs;
-
+        // Add specific inputs based on promo type
         if (promoType === "xOff") {
-            promoInputsContainer.innerHTML += `
+            elements.promoInputs.innerHTML += createXOffInputs();
+        } else if (promoType === "zeroDelivery") {
+            elements.promoInputs.innerHTML += createZeroDeliveryInputs();
+        } else if (promoType === "bogo") {
+            elements.promoInputs.innerHTML += createBogoInputs();
+        } else if (promoType === "xOffSaveUpToX") {
+            elements.promoInputs.innerHTML += createXOffSaveUpToXInputs();
+        }
+    }
+
+    // Create common input fields for all promo types
+    function createCommonInputs() {
+        return `
+            <div class="form-group">
+                <label for="endDate">End Date:</label>
+                <input type="date" id="endDate" class="input-field">
+            </div>
+
+            <div class="form-group">
+                <label for="dashPassOnly">DashPass Only?</label>
+                <select id="dashPassOnly" class="input-field boolean-field">
+                    <option value="">Select...</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="mxLocationExclusive">Mx/Location Exclusive?</label>
+                <select id="mxLocationExclusive" class="input-field boolean-field">
+                    <option value="">Select...</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="mxLocation">Mx/Location (required if "Yes" in previous field):</label>
+                <input type="text" id="mxLocation" class="input-field">
+            </div>
+        `;
+    }
+
+    // Create input fields for $X Off promo type
+    function createXOffInputs() {
+        return `
+            <div class="form-group">
                 <label for="minSubtotal">Minimum Subtotal:</label>
                 <input type="number" id="minSubtotal" class="input-field">
-        
+            </div>
+    
+            <div class="form-group">
                 <label for="orders">Number of Orders:</label>
                 <input type="number" id="orders" class="input-field">
-        
+            </div>
+    
+            <div class="form-group">
                 <label for="promoCode">Promo Code (optional):</label>
                 <input type="text" id="promoCode" class="input-field">
-        
+            </div>
+    
+            <div class="form-group">
                 <label for="autoRedeem">Auto Redeem?</label>
                 <select id="autoRedeem" class="input-field boolean-field">
                     <option value="">Select...</option>
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select>
+            </div>
 
+            <div class="form-group">
                 <label for="discountLevels">Discount Levels ($)</label>
                 <input type="number" id="discountLevels" class="input-field">
+            </div>
 
+            <div class="form-group">
                 <label for="showInWallet">Show in Wallet?</label>
                 <select id="showInWallet" class="input-field boolean-field">
                     <option value="">Select...</option>
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select>
-        
+            </div>
+    
+            <div class="form-group">
                 <label for="pickup">Available for pickup orders?</label>
                 <select id="pickup" class="input-field boolean-field">
                     <option value="">Select...</option>
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select>
-        
+            </div>
+    
+            <div class="form-group">
                 <label for="alcohol">Alcohol?</label>
                 <select id="alcohol" class="input-field boolean-field">
                     <option value="">Select...</option>
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select>
-            `;
-        } else if (promoType === "zeroDelivery") {
-            promoInputsContainer.innerHTML += `
+            </div>
+        `;
+    }
+
+    // Create input fields for $0 Delivery Fee promo type
+    function createZeroDeliveryInputs() {
+        return `
+            <div class="form-group">
                 <label for="minSubtotal">Minimum Subtotal:</label>
                 <input type="number" id="minSubtotal" class="input-field">
-        
+            </div>
+    
+            <div class="form-group">
                 <label for="orders">Number of Orders:</label>
                 <input type="number" id="orders" class="input-field">
-        
+            </div>
+    
+            <div class="form-group">
                 <label for="promoCode">Promo Code (optional):</label>
                 <input type="text" id="promoCode" class="input-field">
-        
+            </div>
+    
+            <div class="form-group">
                 <label for="autoRedeem">Auto Redeem?</label>
                 <select id="autoRedeem" class="input-field boolean-field">
                     <option value="">Select...</option>
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select>
-            `;
-        } else if (promoType === "bogo") {
-            promoInputsContainer.innerHTML += `
+            </div>
+        `;
+    }
+
+    // Create input fields for BOGO promo type
+    function createBogoInputs() {
+        return `
+            <div class="form-group">
                 <label for="numBogoItems">Number of BOGO items:</label>
                 <input type="number" id="numBogoItems" class="input-field">
-            `;
-        } else if (promoType === "xOffSaveUpToX") {
-            promoInputsContainer.innerHTML += `
-            <label for="discountLevelsPercent">Discount Levels (%)</label>
-            <input type="number" id="discountLevelsPercent" class="input-field">
-             <label for="maxDiscount">Max Discount ($)</label>
-            <input type="number" id="maxDiscount" class="input-field">  
-            <label for="minSubtotal">Minimum Subtotal ($)</label>
-            <input type="number" id="minSubtotal" class="input-field"> 
-            <label for="orders">Number of Orders:</label>
-            <input type="number" id="orders" class="input-field">
-            <label for="pickup">Available for pickup orders?</label>
-            <select id="pickup" class="input-field boolean-field">
+            </div>
+        `;
+    }
+
+    // Create input fields for X% Off Save Up to $X promo type
+    function createXOffSaveUpToXInputs() {
+        return `
+            <div class="form-group">
+                <label for="discountLevelsPercent">Discount Levels (%)</label>
+                <input type="number" id="discountLevelsPercent" class="input-field">
+            </div>
+            
+            <div class="form-group">
+                <label for="maxDiscount">Max Discount ($)</label>
+                <input type="number" id="maxDiscount" class="input-field">
+            </div>
+            
+            <div class="form-group">
+                <label for="minSubtotal">Minimum Subtotal ($)</label>
+                <input type="number" id="minSubtotal" class="input-field">
+            </div>
+            
+            <div class="form-group">
+                <label for="orders">Number of Orders:</label>
+                <input type="number" id="orders" class="input-field">
+            </div>
+            
+            <div class="form-group">
+                <label for="pickup">Available for pickup orders?</label>
+                <select id="pickup" class="input-field boolean-field">
                     <option value="">Select...</option>
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
-            </select>
-            <label for="promoCode">Promo Code (optional):</label>
-            <input type="text" id="promoCode" class="input-field">
-            <label for="autoRedeem">Auto Redeem?</label>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="promoCode">Promo Code (optional):</label>
+                <input type="text" id="promoCode" class="input-field">
+            </div>
+            
+            <div class="form-group">
+                <label for="autoRedeem">Auto Redeem?</label>
                 <select id="autoRedeem" class="input-field boolean-field">
                     <option value="">Select...</option>
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select>
-            <label for="showInWallet">Show in Wallet?</label>
+            </div>
+            
+            <div class="form-group">
+                <label for="showInWallet">Show in Wallet?</label>
                 <select id="showInWallet" class="input-field boolean-field">
                     <option value="">Select...</option>
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select>
-            <label for="alcohol">Alcohol?</label>
+            </div>
+            
+            <div class="form-group">
+                <label for="alcohol">Alcohol?</label>
                 <select id="alcohol" class="input-field boolean-field">
                     <option value="">Select...</option>
                     <option value="Yes">Yes</option>
                     <option value="No">No</option>
                 </select>
-                `;
-        }
+            </div>
+        `;
     }
 
     // Function to get form inputs
     function getFormInputs() {
         const getValue = (id) =>
             document.getElementById(id) ? document.getElementById(id).value : "";
+            
         return {
             promoType: getValue("promoType"),
             endDate: getValue("endDate"),
@@ -210,6 +331,19 @@ document.addEventListener("DOMContentLoaded", () => {
         };
     }
 
+    // Function to format date as MM-DD-YYYY
+    function formatDate(dateString) {
+        if (!dateString) return "";
+        
+        const date = new Date(dateString);
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const year = date.getFullYear();
+        
+        return `${month}-${day}-${year}`;
+    }
+
+    // Function to validate inputs
     function validateInputs(inputs) {
         const errors = [];
 
@@ -230,7 +364,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (
             document.getElementById("mxLocationExclusive") &&
             inputs.mxLocationExclusive === "Yes" &&
-            !mxLocationField
+            !mxLocationField.value
         ) {
             errors.push(
                 "If 'Mx/Location Exclusive?' is set to 'Yes', you must fill out 'Mx/Location'."
@@ -248,11 +382,13 @@ document.addEventListener("DOMContentLoaded", () => {
         if (discountLevelField && !inputs.discountLevels) {
             errors.push("You must set a 'Discount Level' for the promotion.");
         }
+        
         // Validate Discount Level % only if the field exists
         const discountLevelsPercentField = document.getElementById("discountLevelsPercent");
         if (discountLevelsPercentField && !inputs.discountLevelsPercent) {
             errors.push("You must set a 'Discount Level' for the promotion.");
         }
+        
         // Validate min subtotal only if the field exists
         const minSubtotalField = document.getElementById("minSubtotal");
         if (minSubtotalField && !inputs.minSubtotal) {
@@ -263,35 +399,35 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Function to display errors
-    function displayErrors(container, errors) {
-        container.textContent = errors.join("\n");
-        container.classList.add("error");
-        container.style.display = "block";
+    function displayErrors(errors) {
+        elements.error.textContent = errors.join("\n");
+        elements.error.style.display = "block";
     }
 
     // Function to clear errors
-    function clearErrors(container) {
-        container.style.display = "none";
+    function clearErrors() {
+        elements.error.style.display = "none";
     }
 
     // Function to display generated terms
     function displayOutput(terms) {
-        document.getElementById("output").innerHTML = terms;
-        document.getElementById("output").style.display = "block";
-        document.getElementById("copyBtn").style.display = "block";
+        elements.output.innerHTML = terms;
+        elements.output.style.display = "block";
+        elements.copyBtn.style.display = "block";
+        elements.disclaimer.style.display = "block";
     }
 
     // Promo Generators
     const promoGenerators = {
         xOff: (inputs) => {
-            let terms = `Offer valid through ${inputs.endDate}`;
+            let terms = `Offer valid through ${formatDate(inputs.endDate)}`;
             if (inputs.mxLocationExclusive === "Yes" && inputs.mxLocation) {
                 terms += ` on orders placed at ${inputs.mxLocation}`;
             }
 
             terms += `. Valid on only ${inputs.orders} ${
-        inputs.orders == 1 ? "order" : "orders"
-      }`;
+                inputs.orders == 1 ? "order" : "orders"
+            }`;
             if (inputs.minSubtotal > 0) {
                 terms += ` with a minimum subtotal of $${inputs.minSubtotal}`;
             }
@@ -319,14 +455,14 @@ document.addEventListener("DOMContentLoaded", () => {
             return terms;
         },
         zeroDelivery: (inputs) => {
-            let terms = `Offer valid through ${inputs.endDate}`;
+            let terms = `Offer valid through ${formatDate(inputs.endDate)}`;
             if (inputs.mxLocationExclusive === "Yes" && inputs.mxLocation) {
                 terms += ` on orders placed at ${inputs.mxLocation}`;
             }
 
             terms += `. Valid only ${inputs.orders} ${
-        inputs.orders == 1 ? "order" : "orders"
-      }`;
+                inputs.orders == 1 ? "order" : "orders"
+            }`;
             if (inputs.minSubtotal > 0) {
                 terms += ` with a minimum subtotal of $${inputs.minSubtotal}`;
             }
@@ -353,7 +489,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return terms;
         },
         bogo: (inputs) => {
-            let terms = `Offer valid through ${inputs.endDate}`;
+            let terms = `Offer valid through ${formatDate(inputs.endDate)}`;
 
             terms += ` for 1 free, regular-priced menu item labeled as a 'Buy 1 get 1 free' menu item for delivery orders`;
             if (inputs.mxLocation) {
@@ -364,8 +500,8 @@ document.addEventListener("DOMContentLoaded", () => {
             terms += `, while supplies last.`;
 
             terms += ` Cart must include at least ${
-        inputs.numBogoItems * 2
-      } items labeled as 'Buy 1 get 1 free' menu items.`;
+                inputs.numBogoItems * 2
+            } items labeled as 'Buy 1 get 1 free' menu items.`;
             terms += ` Discount applies to base item price only; fees, taxes, and gratuity still apply.`;
             terms += ` Only available to select users as indicated in their account associated with this email address.`;
 
@@ -381,14 +517,14 @@ document.addEventListener("DOMContentLoaded", () => {
             return terms;
         },
         xOffSaveUpToX: (inputs) => {
-            let terms = `Offer valid through ${inputs.endDate}`;
+            let terms = `Offer valid through ${formatDate(inputs.endDate)}`;
             if (inputs.mxLocationExclusive === "Yes" && inputs.mxLocation) {
                 terms += ` on orders placed at ${inputs.mxLocation}`;
             }
 
             terms += `. Valid only on ${inputs.orders} ${
-        inputs.orders == 1 ? "order" : "orders"
-      }`;
+                inputs.orders == 1 ? "order" : "orders"
+            }`;
             if (inputs.minSubtotal > 0) {
                 terms += ` with a minimum subtotal of $${inputs.minSubtotal}, excluding fees and taxes`;
             }
@@ -436,4 +572,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return terms;
         },
     };
+
+    // Initialize the app
+    init();
 });

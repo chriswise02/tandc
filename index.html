@@ -3,32 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Promo Terms Generator</title>
+    <title>DoorDash Promo Terms Generator</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <div id="app">
-        <h1>Promo Terms Generator</h1>
-        <label for="promoType">Select Promo Type:</label>
-        <select id="promoType">
-            <option value="" selected disabled>Select...</option>
-            <option value="xOff">$X Off Your Order</option>
-            <option value="zeroDelivery">$0 Delivery Fee</option>
-            <option value="bogo">BOGO</option>
-            <option value="xOffSaveUpToX">X% Off Your Order; Save Up to $X</option>
-        </select>
+    <div class="container">
+        <div id="app">
+            <header>
+                <img src="assets/doordash-logo.svg" alt="DoorDash Logo" class="logo">
+                <h1>Promo Terms Generator</h1>
+                <p class="subtitle">Generate terms and conditions for DoorDash promotions</p>
+            </header>
+            
+            <main>
+                <section class="form-section">
+                    <div class="form-group">
+                        <label for="promoType">Select Promo Type:</label>
+                        <select id="promoType" class="form-control">
+                            <option value="" selected disabled>Select...</option>
+                            <option value="xOff">$X Off Your Order</option>
+                            <option value="zeroDelivery">$0 Delivery Fee</option>
+                            <option value="bogo">BOGO</option>
+                            <option value="xOffSaveUpToX">X% Off Your Order; Save Up to $X</option>
+                        </select>
+                    </div>
 
-        <div id="promoInputs"></div>
-        <button id="generateBtn" style="display: none;">Generate Terms</button>
+                    <div id="promoInputs" class="form-fields"></div>
+                    
+                    <div class="button-container">
+                        <button id="generateBtn" class="btn btn-primary">
+                            <i class="fas fa-magic"></i> Generate Terms
+                        </button>
+                    </div>
+                </section>
 
-        <!-- Disclaimer -->
-        <p id="disclaimer">
-            Please double-check your work and ensure the terms and conditions are accurate before using. Legal standards and regulations may change over time, and the generator may not account for all specific legal requirements or updates.
-        </p>
+                <section class="output-section">
+                    <div id="error" class="error-message"></div>
+                    
+                    <div id="output" class="output-container"></div>
+                    
+                    <div class="button-container">
+                        <button id="copyBtn" class="btn btn-secondary">
+                            <i class="fas fa-copy"></i> Copy to Clipboard
+                        </button>
+                    </div>
+                </section>
+            </main>
 
-        <div id="error"></div>
-        <div id="output"></div>
-        <button id="copyBtn">Copy to Clipboard</button>
+            <footer>
+                <div id="disclaimer" class="disclaimer">
+                    <p>Please double-check your work and ensure the terms and conditions are accurate before using. Legal standards and regulations may change over time, and the generator may not account for all specific legal requirements or updates.</p>
+                </div>
+            </footer>
+        </div>
     </div>
 
     <script src="script.js"></script>
