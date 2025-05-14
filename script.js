@@ -1,4 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
+    // Constants
+    const BASE_URL = "help.doordash.com/legal/document?type=cx-promo-and-credits-terms";
+    const REGION_PARAMS = "region=US&locale=en-US";
+    const TERMS_URL = `${BASE_URL}&amp;${REGION_PARAMS}`;
+
     // DOM Elements
     const elements = {
         promoType: document.getElementById("promoType"),
@@ -451,7 +456,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 terms += ` Select offer from wallet to redeem.`;
             if (inputs.autoRedeem === "Yes")
                 terms += ` Offer will be automatically applied to order upon checkout.`;
-            terms += ` See further terms and conditions at https://drd.sh/8ONpZP/.`;
+            terms += ` See further terms and conditions at ${TERMS_URL}.`;
             return terms;
         },
         zeroDelivery: (inputs) => {
@@ -484,7 +489,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (inputs.autoRedeem === "Yes")
                 terms += ` Offer will be automatically applied to order upon checkout.`;
 
-            terms += ` See further terms and conditions at https://drd.sh/8ONpZP/.`;
+            terms += ` See further terms and conditions at ${TERMS_URL}.`;
             terms += ` Non-transferable.`;
             return terms;
         },
@@ -512,7 +517,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             terms += ` DoorDash reserves the right to modify or cancel this offer at any time.`;
-            terms += ` See further terms and conditions at https://drd.sh/8ONpZP/.`;
+            terms += ` See further terms and conditions at ${TERMS_URL}.`;
 
             return terms;
         },
@@ -567,7 +572,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 terms += ` Select offer from wallet to redeem.`;
             }
 
-            terms += ` See further terms and conditions at https://drd.sh/8ONpZP/.`;
+            terms += ` See further terms and conditions at ${TERMS_URL}.`;
 
             return terms;
         },
