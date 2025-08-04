@@ -2,6 +2,8 @@
 
 A modern web application for generating terms and conditions for DoorDash promotions.
 
+https://chriswise02.github.io/tandc/
+
 ## Features
 
 - Generate terms and conditions for different types of promotions:
